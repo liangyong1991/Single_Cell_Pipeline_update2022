@@ -18,8 +18,9 @@ rule normalize:
         min_count=config["filtering"]["min-avg-count"],
     log:
         "logs/normalize.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
+
     script:
         "../scripts/normalize.R"
 
@@ -35,7 +36,7 @@ rule batch_effect_removal:
         model=config["model"]["design"],
     log:
         "logs/batch-effect-removal.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     script:
         "../scripts/batch-effect-removal.R"

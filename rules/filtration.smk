@@ -16,7 +16,9 @@ rule filter_cells:
         ),
     log:
         "logs/filter-cells.log",
-    conda:
-        "../envs/eval.yaml"
+    #conda:
+    #    "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     script:
         "../scripts/filter-cells.R"

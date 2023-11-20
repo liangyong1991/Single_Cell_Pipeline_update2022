@@ -1,23 +1,34 @@
 # this is needed to make tensorflow happy
 Sys.setenv(MKL_THREADING_LAYER = "GNU")
 
+system("export PATH=/opt/conda/envs/cellassign/bin:$PATH")
+
+
 log <- file(snakemake@log[[1]], open="wt")
-sink(log)
-sink(log, type="message")
+#log = "logs/cellassign/root.log"
+#sink(log)
+#sink(log, type="message")
 
 library(SingleCellExperiment)
 library(tensorflow)
+
+#install_tensorflow(method="virtualenv")
+
 library(cellassign)
 library(ComplexHeatmap)
 library(viridis)
 library(ggsci)
 
+
 is.float <- function(x) {
-    (typeof(x) == "double") && (x %% 1 != 0)
+    (typeof(x) == "double") & (x %% 1 != 0)
 }
 
 sce <- readRDS(snakemake@input[["sce"]])
 parent <- snakemake@wildcards[["parent"]]
+#sce = readRDS("analysis/normalized.batch-removed.rds")
+#parent = "root"
+
 
 # MJ - disabling: Does nothing for 'root' or filters out everything
 # # get parent fit and filter sce to those cells
@@ -71,11 +82,13 @@ sce <- sce[rowSums(counts(sce)) != 0, colSums(counts(sce)) != 0]
 # Matrix rows (gene names) must match exactly
 marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce),, drop=FALSE]
 # obtain batch effect model
+#model <- readRDS("analysis/design-matrix.rds")
+
 model <- readRDS(snakemake@input[["design_matrix"]])
 # constrain to selected cells and remove intercept (not allowed for cellassign)
 model <- model[colnames(sce), colnames(model) != "(Intercept)"]
 # normalize float columns (as recommended in cellassign manual)
-float_cols <- apply(model, 2, is.float)
+float_cols <- apply(model, 2, function(x) any(is.float(x)))
 model[, float_cols] <- apply(model[, float_cols], 2, scale)
 if(nrow(sce) == 0) {
     stop("Markers do not match any gene names in the count matrix.")
@@ -90,12 +103,18 @@ fit$cell_type <- data.frame(cell_type = fit$cell_type)
 rownames(fit$cell_type) <- cells
 
 saveRDS(fit, file = snakemake@output[["fit"]])
+#saveRDS(fit, file = "analysis/cellassign.root.rds")
 
 # plot heatmap
 source(file.path(snakemake@scriptdir, "common.R"))
-sce <- assign_celltypes(fit, sce, snakemake@params[["min_gamma"]])
+#source(file.path("scripts/common.R"))
 
-pdf(file = snakemake@output[["heatmap"]])
+sce <- assign_celltypes(fit, sce, 0.9)
+
+
+pdf(file = "plots/celltype-markers.root.pdf")
+
+
 pal <- pal_d3("category20")(ncol(marker_mat))
 names(pal) <- colnames(marker_mat)
 celltype <- HeatmapAnnotation(df = data.frame(celltype = colData(sce)$celltype), col = list(celltype = pal))

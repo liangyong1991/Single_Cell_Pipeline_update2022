@@ -30,8 +30,9 @@ rule edger:
         coef=lambda w: config["diffexp"][w.test]["coef"],
         fdr=lambda w: config["diffexp"][w.test]["fdr"],
         min_gamma=config["celltype"]["min_gamma"],
-    conda:
-        "../envs/edger.yaml"
+    singularity:
+        "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/edger.sif"
+
     script:
         "../scripts/diffexp.R"
 
@@ -50,7 +51,8 @@ rule plot_expression:
         "logs/plot-diffexp/{gene}.{test}.log",
     params:
         coef=lambda w: config["diffexp"][w.test]["coef"],
-    conda:
-        "../envs/edger.yaml"
+    singularity:
+        "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/edger.sif"    
+
     script:
         "../scripts/plot-differential-expression.R"

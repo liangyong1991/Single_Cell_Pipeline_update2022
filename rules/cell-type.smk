@@ -19,12 +19,12 @@ rule cellassign:
         min_gamma=config["celltype"]["min_gamma"],
     log:
         "logs/cellassign/{parent}.log",
-    conda:
-        "../envs/cellassign.yaml"
+    singularity:
+        "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/cellassign/cellassign.sif"    
+
     threads: 8 # cellassign always uses the entire CPU
     script:
         "../scripts/cellassign.R"
-
 
 rule plot_cellassign:
     input:
@@ -37,8 +37,9 @@ rule plot_cellassign:
         ),
     log:
         "logs/cellassign/{parent}.plot.log",
-    conda:
-        "../envs/heatmap.yaml"
+    singularity:
+        "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/heatmap.sif"    
+
     script:
         "../scripts/plot-cellassign.R"
 
@@ -60,8 +61,8 @@ rule celltype_tsne:
         parents=markers["parent"].unique(),
     log:
         "logs/celltype-tsne/{parent}.seed={seed}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"   
     wildcard_constraints:
         seed="[0-9]+",
     script:
@@ -84,7 +85,7 @@ rule plot_celltype_expressions:
         feature="celltype",
     log:
         "logs/plot-celltype-expressions/{parent}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"   
     script:
         "../scripts/plot-gene-expression.R"

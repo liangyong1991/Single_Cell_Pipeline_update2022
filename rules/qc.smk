@@ -30,8 +30,10 @@ rule qc:
         ),
     log:
         "logs/qc.log",
-    conda:
-        "../envs/eval.yaml"
+    #conda:
+    #    "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     script:
         "../scripts/qc.R"
 
@@ -39,7 +41,7 @@ rule qc:
 rule explained_variance:
     input:
         rds="analysis/normalized.rds",
-        cells="cells.tsv",
+        cells=config["cells"],
     output:
         report(
             "plots/explained-variance.pdf",
@@ -48,8 +50,8 @@ rule explained_variance:
         ),
     log:
         "logs/explained-variance.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     script:
         "../scripts/explained-variance.R"
 
@@ -72,8 +74,8 @@ rule gene_vs_gene:
         dropout_threshold=config["model"]["dropout-threshold"],
     log:
         "logs/gene-vs-gene/{gene_a}-vs-{gene_b}.{settings}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     script:
         "../scripts/plot-gene-gene-expression.R"
 
@@ -89,8 +91,8 @@ rule gene_tsne:
         ),
     log:
         "logs/gene-tsne/{gene}.seed={seed}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif"
     wildcard_constraints:
         seed="[0-9]+",
     script:

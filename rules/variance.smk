@@ -33,8 +33,8 @@ rule hvg:
         show_n=config["model"]["show-n"],
     log:
         "logs/hvg.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif" 
     script:
         "../scripts/hvg.R"
 
@@ -64,8 +64,8 @@ rule correlation:
         top_n=config["model"]["top-n"],
     log:
         "logs/hvg-correlation.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif" 
     script:
         "../scripts/hvg-correlation.R"
 
@@ -84,8 +84,9 @@ rule hvg_pca:
         fdr=config["model"]["fdr"],
     log:
         "logs/hvg-pca.{covariate}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif" 
+
     script:
         "../scripts/hvg-pca.R"
 
@@ -104,8 +105,8 @@ rule hvg_tsne:
         fdr=config["model"]["fdr"],
     log:
         "logs/hvg-tsne.{covariate}.seed={seed}.log",
-    conda:
-        "../envs/eval.yaml"
+    singularity:
+            "/share/work/HPC/work_tmp/liangyong/github/Single_Cell_Pipeline_update2022/singularity_test/recipe/eval.sif" 
     wildcard_constraints:
         seed="[0-9]+",
     script:

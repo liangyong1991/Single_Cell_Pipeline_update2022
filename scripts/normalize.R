@@ -25,7 +25,7 @@ sce <- readRDS(snakemake@input[[1]])
 
 # pre-cluster in order to group similar cells
 # this avoids a violation of the non-DE assumption
-preclusters <- quickCluster(sce, min.size=1)
+preclusters <- quickCluster(sce, min.size=200)
 # compute size factors by pooling cells according to the clustering
 sce <- computeSumFactors(sce, sizes=seq(2,5), clusters=preclusters, min.mean=snakemake@params[["min_count"]])
 

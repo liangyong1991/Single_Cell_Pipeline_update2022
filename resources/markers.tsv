@@ -5,5 +5,5 @@ Macrophage		Cd14, Cd163, Csf1r
 Endothelial-cell		Pecam1, Vwf, Cdh5
 Fibroblast/myofibroblast		Fap, Thy1, Dcn, Col1a1, Col1a2, Col6a1, Col6a2, Col6a3
 Malignant		Cdk2, Mia, Sox10, Cspg4
-IFNy+	Malignant	Irf1, Ido1
-IFNy-	Malignant	Mitf, Pmel, Tyr
+IFNy+		Irf1, Ido1
+IFNy-		Mitf, Pmel, Tyr

@@ -28,3 +28,12 @@ scripts/.Rhistory
 !report/*
 !schemas
 !schemas/*
+
+singularity_test
+analysis
+edger
+tables
+plots
+logs
+test_realdata
+

@@ -22,6 +22,6 @@ pdf(file=snakemake@output[[1]])
 palette(brewer.pal(n=n, name="Dark2"))
 plot(assignments$score$G1, assignments$score$G2M,
      xlab="G1 score", ylab="G2/M score", pch=16,
-     col=annotation[, covariate])
+     col=annotation[, covariate], xlim=c(0,1), ylim=c(0, 1))
 legend("topright", legend=covariate.values, col=palette()[covariate.values], pch=16)
 dev.off()
