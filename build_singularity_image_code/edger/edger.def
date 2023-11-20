@@ -1,0 +1,19 @@
+Bootstrap: docker
+From: condaforge/mambaforge:latest
+
+%files
+    edger.yaml /opt/edger.yaml
+    Hong_Kong /etc/localtime
+
+%post
+    mamba env create -f /opt/edger.yaml --prefix /opt/conda/envs/edger
+    apt update -y
+    
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+    #apt install tzdata -y
+
+%environment
+    export PATH=/opt/conda/envs/edger/bin:$PATH
+
+
+

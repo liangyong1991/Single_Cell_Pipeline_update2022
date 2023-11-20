@@ -37,5 +37,3 @@ plots
 logs
 test_realdata
 !README_cn.md
-!build_singularity_image_code
-!build_singularity_image_code/*

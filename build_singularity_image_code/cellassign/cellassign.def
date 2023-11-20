@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: condaforge/mambaforge:latest
+
+%files
+    cellassign.yaml /opt/cellassign.yaml
+    tensorflow-1.13.1-cp37-cp37m-manylinux1_x86_64.whl /opt/tensorflow-1.13.1-cp37-cp37m-manylinux1_x86_64.whl
+
+%post
+    mamba env create -f /opt/cellassign.yaml --prefix /opt/conda/envs/cellassign
+    /opt/conda/envs/cellassign/bin/python3.7 -m pip install /opt/tensorflow-1.13.1-cp37-cp37m-manylinux1_x86_64.whl
+
+%environment
+    export PATH=/opt/conda/envs/cellassign/bin:$PATH
+    export LD_LIBRARY_PATH=/opt/conda/envs/cellassign/lib:$LD_LIBRARY_PATH
+    PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+

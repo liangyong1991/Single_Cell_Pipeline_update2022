@@ -1,0 +1,15 @@
+Bootstrap: docker
+From: condaforge/mambaforge:latest
+
+%files
+    eval.yaml /opt/eval.yaml
+
+
+%post
+    mamba env create -f /opt/eval.yaml --prefix /opt/conda/envs/eval
+
+%environment
+    export PATH=/opt/conda/envs/eval/bin:$PATH
+
+
+

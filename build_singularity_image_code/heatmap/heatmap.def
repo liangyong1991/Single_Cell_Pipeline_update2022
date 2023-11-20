@@ -1,0 +1,15 @@
+Bootstrap: docker
+From: condaforge/mambaforge:latest
+
+%files
+    heatmap.yaml /opt/heatmap.yaml
+
+
+%post
+    mamba env create -f /opt/heatmap.yaml --prefix /opt/conda/envs/heatmap
+
+%environment
+    export PATH=/opt/conda/envs/heatmap/bin:$PATH
+
+
+
